@@ -1,0 +1,5 @@
+{
+  "name": "DinoMatch: Dinosaur Quiz",
+  "description": "A fun and educational quiz game where you identify dinosaurs from their images. Features multiple difficulty levels, a timed mode, and a learning center powered by Gemini to provide fun facts.",
+  "requestFramePermissions": []
+}
