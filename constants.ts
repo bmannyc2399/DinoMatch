@@ -7,15 +7,18 @@ const capitalize = (s: string) => {
 }
 
 export const DINOSAURS: Dinosaur[] = DINO_API_DATA.map((dino, index) => {
-    // FIX: The Difficulty type was not imported, causing a build error.
+    const total = DINO_API_DATA.length;
     let difficulty: Difficulty;
-    if (index < 7) {
+    
+    // Distribute difficulty levels evenly across the dataset
+    if (index < total / 3) {
         difficulty = 'easy';
-    } else if (index < 14) {
+    } else if (index < (total * 2) / 3) {
         difficulty = 'medium';
     } else {
         difficulty = 'hard';
     }
+
     return {
         name: capitalize(dino.name.trim()),
         image: dino.image,
