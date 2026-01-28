@@ -4,6 +4,7 @@ import { DINOSAURS } from '../constants';
 import { CheckIcon, CrossIcon, StarIcon, LeafIcon, RulerIcon, TimerIcon, GlobeIcon, SpeakerIcon } from './Icons';
 import { getDinosaurFact } from '../services/geminiService';
 import { playCorrectSound, playIncorrectSound, speakText } from '../utils/sound';
+import ImageWithLoader from './ImageWithLoader';
 
 const shuffleArray = <T,>(array: T[]): T[] => {
   return [...array].sort(() => Math.random() - 0.5);
@@ -55,11 +56,11 @@ const FactDisplay: React.FC<{
               <li className="flex items-center"><GlobeIcon className="w-8 h-8 mr-3 text-orange-500 flex-shrink-0" /><div><strong className="font-extrabold">Found in:</strong> {fact.location}</div></li>
             </ul>
             <div className="mt-4 bg-yellow-50 p-3 rounded-lg border-l-4 border-yellow-400 flex items-center justify-between">
-              <div>
+              <div className="pr-2">
                 <p className="font-extrabold text-yellow-800">Fun Fact:</p>
                 <p className="text-yellow-900">{fact.funFact}</p>
               </div>
-              <button onClick={() => handleSpeak(fact.funFact)} className="ml-2 bg-yellow-400 text-white p-3 rounded-full hover:bg-yellow-500 transition-all transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-yellow-300">
+              <button onClick={() => handleSpeak(fact.funFact)} className="bg-yellow-400 text-white p-3 rounded-full hover:bg-yellow-500 transition-all transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-yellow-300 flex-shrink-0">
                   <SpeakerIcon className="w-6 h-6" />
               </button>
             </div>
@@ -121,7 +122,7 @@ const QuizScreen: React.FC<{ difficulty: Difficulty; onGameEnd: (score: number) 
     setFeedback(null);
     setFact(null);
     setShowFactModal(false);
-  }, [currentQuestionIndex, questions, onGameEnd, score, currentQuestion]);
+  }, [currentQuestionIndex, questions, score, currentQuestion]);
 
   const handleAnswer = (answer: string) => {
     if (feedback) return;
@@ -211,11 +212,11 @@ const QuizScreen: React.FC<{ difficulty: Difficulty; onGameEnd: (score: number) 
         </div>
       </div>
       
-      <div className="relative mb-6 aspect-video bg-slate-100 rounded-xl">
-        <img
+      <div className="relative mb-6 aspect-video bg-slate-100 rounded-xl overflow-hidden">
+        <ImageWithLoader
             src={currentQuestion.image}
             alt={currentQuestion.name}
-            className="w-full h-full object-cover rounded-xl shadow-lg border-8 border-white"
+            className="w-full h-full rounded-xl shadow-lg border-8 border-white"
         />
         {showFactModal && (
           <FactDisplay 

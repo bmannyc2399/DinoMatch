@@ -2,8 +2,6 @@ import { GoogleGenAI } from '@google/genai';
 import { DinosaurFact } from '../types';
 import { DINO_API_DATA } from '../dino-api-data';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const getDinoData = (name: string) => {
     if (!name) return undefined;
     return DINO_API_DATA.find(d => d.name.toLowerCase().trim() === name.toLowerCase().trim());
@@ -14,7 +12,7 @@ const capitalize = (s: string) => {
     return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-// Keep the local formatter for structured data
+// Local formatter for structured data
 const formatBaseFact = (dinoData: any): Omit<DinosaurFact, 'funFact'> | null => {
     if (!dinoData) return null;
     
@@ -44,6 +42,8 @@ export const getDinosaurFact = async (dinosaurName: string): Promise<DinosaurFac
     }
 
     try {
+        // Initialize inside the function to ensure process.env.API_KEY is available
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         const prompt = `Based on the following description for the dinosaur '${dinoData.name}', create one short, exciting fun fact suitable for a child under 10 years old. Make it sound very exciting. Just return the single fun fact text, nothing else. Description: ${dinoData.description}`;
 
         const response = await ai.models.generateContent({
@@ -60,7 +60,6 @@ export const getDinosaurFact = async (dinosaurName: string): Promise<DinosaurFac
 
     } catch (error) {
         console.error("Error fetching dinosaur fact from Gemini:", error);
-        // Fallback to the old method if API fails, ensuring reliability
         const fallbackFunFact = dinoData.description?.split('.')[0] + '.' || 'A very mysterious dinosaur!';
         return {
             ...baseFact,

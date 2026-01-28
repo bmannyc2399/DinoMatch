@@ -3,6 +3,7 @@ import { Difficulty, Dinosaur } from '../types';
 import { DINOSAURS } from '../constants';
 import { CheckIcon, TimerIcon } from './Icons';
 import { playCorrectSound, playIncorrectSound } from '../utils/sound';
+import ImageWithLoader from './ImageWithLoader';
 
 interface TimedQuizScreenProps {
   difficulty: Difficulty;
@@ -115,14 +116,14 @@ const TimedQuizScreen: React.FC<TimedQuizScreenProps> = ({ difficulty, onGameEnd
         ></div>
       </div>
       
-      <div className="relative mb-6 aspect-video bg-slate-100 rounded-xl">
-         <img
+      <div className="relative mb-6 aspect-video bg-slate-100 rounded-xl overflow-hidden">
+         <ImageWithLoader
             src={currentQuestion.image}
             alt={currentQuestion.name}
-            className="w-full h-full object-cover rounded-xl shadow-lg border-8 border-white"
+            className="w-full h-full rounded-xl shadow-lg border-8 border-white"
         />
         {feedback?.type === 'correct' && (
-           <div className="absolute inset-0 bg-green-500/80 flex items-center justify-center rounded-xl pop-in">
+           <div className="absolute inset-0 bg-green-500/80 flex items-center justify-center rounded-xl pop-in z-10">
              <CheckIcon className="w-24 h-24 text-white" />
            </div>
         )}
